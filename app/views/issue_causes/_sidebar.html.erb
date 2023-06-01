@@ -1,0 +1,9 @@
+<ul>
+  <% if @issue_cause && !@issue_cause.new_record? %>
+    <%= content_tag(:li, link_to(l(:button_edit), edit_polymorphic_path([@project, @issue_cause]), title: l(:button_edit), class: 'icon icon-edit button')) %>
+  <% end %>
+  <% unless @issue_cause %>
+    <%= content_tag(:li, link_to(l(:button_issue_cause_new), new_polymorphic_path([@project, :issue_cause]), title: l(:title_issue_cause_new), class: 'icon icon-add button button-positive')) %>
+  <% end %>
+  <%= content_tag(:li, link_to(l(:label_issue_causes), polymorphic_path([@project, :issue_causes], set_filter: '1'), title: l(:label_issue_causes), class: 'icon icon-folder button')) %>
+</ul>

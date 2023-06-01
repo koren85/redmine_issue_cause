@@ -1,0 +1,13 @@
+<%= title @issue_cause %>
+<div class="issue">
+  <table class="attributes">
+    <%= issue_fields_rows do |rows| %>
+      <% rows.left ::IssueCause.human_attribute_name(:name), format_object(@issue_cause.name) %>
+    <% end %>
+    <%= call_hook(:view_issue_causes_show_details_bottom, issue_cause: @issue_cause) %>
+  </table>
+</div>
+<% ### PAGE CUSTOMS ########################################################## %>
+<% content_for :sidebar do %>
+  <%= render partial: 'issue_causes/sidebar' %>
+<% end %>

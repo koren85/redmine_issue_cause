@@ -1,0 +1,22 @@
+---
+en:
+  label: Hello
+  label_filter_group_custom_fields: Custom fields
+  activerecord:
+    attributes:
+      issue_cause:
+        name: Name
+        field_issue_cause_created_at: Created at
+        field_issue_cause_updated_at: Updated at
+  easy_query:
+    name:
+      issue_cause_query: Issue Causes
+  heading_issue_cause_new: New Issue Cause
+  heading_issue_cause_edit: Edit Issue Cause
+  button_issue_cause_new: New Issue Cause
+  label_issue_causes: Issue Causes
+  label_issue_cause: Issue Cause
+  permission_view_issue_causes: View Issue Causes
+  permission_manage_issue_causes: Manage Issue Causes
+  title_issue_cause_new: Click to create new Issue Cause
+  label_filter_group_issue_cause_query: IssueCause

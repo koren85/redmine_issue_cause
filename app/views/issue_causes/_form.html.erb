@@ -1,0 +1,23 @@
+<%= labelled_form_for([@project, @issue_cause], html: { multipart: false, id: 'issue_cause_form', class: 'tabular', remote: request.xhr? }) do |f| %>
+  <%= error_messages_for @issue_cause %>
+
+  <div class="box">
+      <% if issue_cause.safe_attribute?('name') %>
+      <p>
+        <%= f.label :name, ::IssueCause.human_attribute_name(:name) %>
+        <%= f.text_field :name %>
+      </p>
+      <% end %>
+      
+  </div>
+
+  <% if !request.xhr? %>
+    <p>
+      <% if f.object.new_record? %>
+        <%= submit_tag l(:button_create), title: l(:button_create), class: "button-positive" %>
+      <% else %>
+        <%= submit_tag l(:button_update), title: l(:button_update), class: "button-positive" %>
+      <% end %>
+    </p>
+  <% end %>
+<% end %>

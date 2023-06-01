@@ -1,0 +1,8 @@
+local_assigns[:api].issue_cause do
+  local_assigns[:api].id issue_cause.id
+  local_assigns[:api].name issue_cause.name
+  local_assigns[:api].created_at issue_cause.created_at
+  local_assigns[:api].updated_at issue_cause.updated_at
+
+  call_hook :helper_render_api_issue_cause, { api: local_assigns[:api], issue_cause: issue_cause }
+end

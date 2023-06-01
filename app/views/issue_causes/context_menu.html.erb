@@ -1,0 +1,20 @@
+<ul>
+  <% if @issue_cause %>
+    <li><%= context_menu_link l(:button_edit), edit_issue_cause_path(@issue_cause), class: 'icon icon-edit', disabled: !@can[:edit] %></li>
+  <% end %>
+  <% if @safe_attributes.include? 'status' %>
+  <li class="folder">
+    <a href="#" class="submenu icon icon-issue-status" onclick="return false;"><%= l(:field_status) %></a>
+    <ul>
+      <% IssueCause.statuses.keys.each do |status| %>
+        <li>
+          <%= context_menu_link l("redmine_issue_cause.statuses.#{status}"), bulk_update_issue_cause_path(id: @issue_cause_ids, issue_cause: { status: status }, back_url: @back), method: :put, selected: (@selected[:status] == status), disabled: !@can[:edit], confirm: l(:text_are_you_sure) %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+  <% end %>
+  <li><%= context_menu_link l(:button_delete), issue_cause_path(id: @issue_cause_ids, back_url: @back), method: :delete, data: { confirm: l(:text_are_you_sure) }, class: 'icon icon-del', disabled: !@can[:delete] %></li>
+
+  <%= call_hook(:view_issue_causes_context_menu_end, { issue_cause: @issue_cause, issue_causes: @issue_causes, can: @can, back: @back, project: @project }) %>
+</ul>

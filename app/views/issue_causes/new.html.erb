@@ -1,0 +1,8 @@
+<%= title l(:heading_issue_cause_new) %>
+
+<%= render partial: 'form', locals: { issue_cause: @issue_cause } %>
+
+<% ### PAGE CUSTOMS ########################################################## %>
+<% content_for :sidebar do %>
+  <%= render partial: 'issue_causes/sidebar' %>
+<% end %>
