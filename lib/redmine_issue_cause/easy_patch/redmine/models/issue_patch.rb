@@ -13,6 +13,11 @@ module IssuePatch
       unloadable # Send unloadable so it will not be unloaded in development
       belongs_to :issue_cause, :class_name => 'IssueCause', :foreign_key => 'issue_cause_id'
       # before_create :default_issue_cause
+
+      def issue_cause_name
+        return issue_cause.try(:name)
+      end
+
     end
 
   end

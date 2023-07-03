@@ -21,3 +21,4 @@ ru:
   permission_manage_issue_causes: Управление причинами
   title_issue_cause_new: Перейти к созданию причин
   label_filter_group_issue_cause_query: Причины возникновения
+  field_issue_cause_name : Причины возникновения
