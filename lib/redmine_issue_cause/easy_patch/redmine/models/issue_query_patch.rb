@@ -31,12 +31,8 @@ module IssueQueryPatch
           if User.current.admin? || User.current.allowed_to?(:view_test, nil, :global => true)
 
             # Добавляем новый столбец в список доступных столбцов
-            self.available_columns << QueryColumn.new(:issue_cause_id, :sortable => "#{Issue.table_name}.issue_cause_id", :groupable => true)
-
-            # Добавляем новый столбец в список доступных столбцов
-            self.available_columns << QueryColumn.new(:issue_cause_name, :sortable => "#{IssueCause.table_name}.name", :groupable => true)
-
-
+            self.available_columns << QueryColumn.new(:issue_cause_name, :sortable => "#{IssueCause.table_name}.name", :groupable => "#{IssueCause.table_name}.name")
+            
             # Добавляем новый фильтр по имени
             add_available_filter "issue_cause_id",
                                  :type => :list_optional,
@@ -51,9 +47,28 @@ module IssueQueryPatch
         end
       end
 
+      # Переопределяем метод joins_for_order_statement, чтобы добавить соединение с таблицей IssueCause
+      def joins_for_order_statement(order_options)
+        joins = [super]
+        if order_options
+          if order_options.include?('issue_causes.name')
+            joins << "LEFT JOIN #{IssueCause.table_name} ON #{Issue.table_name}.issue_cause_id = #{IssueCause.table_name}.id"
+          end
+        end
+        joins.any? ? joins.join(' ') : nil
+      end
+
+      # Переопределяем метод sql_for_order_statement, чтобы использовать поле name для сортировки
+      def sql_for_order_statement(order_options)
+        if order_options.include?("issue_causes.name")
+          "#{IssueCause.table_name}.name #{order_options[:sort_direction]}"
+        else
+          super(order_options)
+        end
+      end
       # Переопределяем метод sql_for_field, чтобы использовать поле name для фильтрации
       def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter = false)
-        if field == "issuecauses_name"
+        if field == "issue_causes.name"
           case operator
           when "="
             "#{Issue.table_name}.id IN (SELECT issue_id FROM #{IssueCause.table_name} WHERE name = '#{value.first}')"
