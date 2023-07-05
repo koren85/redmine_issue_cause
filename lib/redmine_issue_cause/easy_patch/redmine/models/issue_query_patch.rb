@@ -1,11 +1,5 @@
 require_dependency 'issue_query'
 
-class IssueQuery
-  # Добавляем новый столбец в список доступных столбцов
-  self.available_columns << QueryColumn.new(:issue_cause_name, :sortable => "#{IssueCause.table_name}.name", :groupable => "#{IssueCause.table_name}.name")
-
-end
-
 module RedmineIssueCause
   module IssueQueryPatch
     def self.included(base)
@@ -26,11 +20,13 @@ module RedmineIssueCause
         # Вызываем оригинальный метод
         initialize_available_filters_without_issuecauses_filters
 
-        if project
+        #  if project
           # Получаем значения идентификаторов и имен из таблицы IssueCause
           issue_causes = IssueCause.order("#{IssueCause.table_name}.name ASC")
           values = issue_causes.pluck(:name, :id)
-          if User.current.admin? || User.current.allowed_to?(:view_test, nil, :global => true)
+          if User.current.admin? || User.current.allowed_to?(:view_issue_cause_id, nil, :global => true)
+            self.available_columns << QueryColumn.new(:issue_cause_name, :sortable => "#{IssueCause.table_name}.name", :groupable => "#{IssueCause.table_name}.name")
+
             # Добавляем новый фильтр по имени
             add_available_filter "issue_cause_id",
                                  :type => :list_optional,
@@ -91,7 +87,7 @@ module RedmineIssueCause
       end
 =end
     end
-  end
+  #end
 end
 
 # Применяем патч к классу IssueQuery
